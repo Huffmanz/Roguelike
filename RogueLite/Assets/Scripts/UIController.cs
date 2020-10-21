@@ -1,13 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] Slider healthBar;
+    public static UIController instance;
+    [SerializeField] 
+    public Slider healthBar;
+    [SerializeField] 
+    public Text healthText;
+    [SerializeField] public GameObject deathScreen;
+
     
+    
+    private void Awake() {
+        instance=this;
+    }
     void Start()
     {
         

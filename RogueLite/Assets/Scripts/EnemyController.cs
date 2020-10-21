@@ -37,7 +37,7 @@ public class EnemyController : MonoBehaviour
     {
         distanceToPlayer = Vector3.Distance(transform.position, PlayerController.instance.transform.position); 
         FacePlayer();
-        if(theBody.isVisible){
+        if(theBody.isVisible && PlayerController.instance.gameObject.activeInHierarchy){
             if(canShoot && distanceToPlayer <= shootRange ){
                 fireCounter-=Time.deltaTime;
                 if(fireCounter <= 0){
@@ -58,6 +58,8 @@ public class EnemyController : MonoBehaviour
             moveDirection.Normalize();
             anim.SetBool("isMoving", moveDirection != Vector3.zero);
             rb.velocity = moveDirection * moveSpeed;
+        }else{
+            rb.velocity = Vector2.zero;
         }
     }
 

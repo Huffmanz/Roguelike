@@ -15,11 +15,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject ammo;
     [SerializeField] Transform firePoint;
     [SerializeField] float timeBetweenAttack = 1f;
-
+    [SerializeField] public SpriteRenderer bodysr;
+    [SerializeField] public float dashSpeed = 8f;
+    [SerializeField] public float dashLength = 0.5f;
+    [SerializeField] public float dashCooldown = 1f;
+    [SerializeField] public float dashInvinsible = 0.5f;
+    
+    
 
     private float attackCounter;
+    private float activeMoveSpeed;
     private Camera cam;
     private Vector2 moveInput;
+    private float dashCounter;
+    private float dashCooldownCounter;
 
     void Awake()
     {
@@ -30,6 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         cam = Camera.main;
         attackCounter = timeBetweenAttack;
+        activeMoveSpeed = moveSpeed;
     }
 
     // Update is called once per frame
@@ -39,7 +49,7 @@ public class PlayerController : MonoBehaviour
         moveInput.y = Input.GetAxisRaw("Vertical");
         moveInput.Normalize();
 
-        rigidbody.velocity = moveInput * moveSpeed;
+        rigidbody.velocity = moveInput * activeMoveSpeed;
 
 
         Vector3 mousePosition = Input.mousePosition;
@@ -77,6 +87,23 @@ public class PlayerController : MonoBehaviour
                 attackCounter = timeBetweenAttack;
             }
 
+        }
+
+        if(Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownCounter <= 0){
+            activeMoveSpeed = dashSpeed;
+            dashCounter = dashLength;
+            anim.SetTrigger("dash");
+            PlayerHealthController.instance.SetInvinsible(dashInvinsible);
+        }
+        if(dashCounter > 0){
+            dashCounter-=Time.deltaTime;
+            if(dashCounter <= 0){
+                activeMoveSpeed = moveSpeed;
+                dashCooldownCounter = dashCooldown;
+            }
+        }
+        if(dashCooldownCounter > 0){
+            dashCooldownCounter-=Time.deltaTime;
         }
 
         anim.SetBool("isMoving", moveInput != Vector2.zero); 
