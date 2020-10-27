@@ -8,6 +8,8 @@ public class PlayerHealthController : MonoBehaviour
     public static PlayerHealthController instance;
     [SerializeField] int maxHealth;
     [SerializeField] float damangeInvinsibleLength = 1f;
+    [SerializeField] int playerDeathSound;
+    [SerializeField] int playerHurtSound;
     public int currentHealth {get; private set;}
 
 
@@ -36,14 +38,25 @@ public class PlayerHealthController : MonoBehaviour
         if(invinsibleCounter <= 0)
         {
             currentHealth--;
+            AudioManager.instance.playSfx(playerHurtSound);
             if(currentHealth <= 0){
+                AudioManager.instance.playSfx(playerDeathSound);
                 PlayerController.instance.gameObject.SetActive(false);
                 UIController.instance.deathScreen.SetActive(true);
+                AudioManager.instance.playGameOver();
             }
             UpdateUI();
             invinsibleCounter = damangeInvinsibleLength;
             PlayerController.instance.bodysr.color = new Color(PlayerController.instance.bodysr.color.r, PlayerController.instance.bodysr.color.g, PlayerController.instance.bodysr.color.b, .5f);
         }
+    }
+
+    public void HealPlayer(int healAmount){
+        currentHealth+=healAmount;
+        if(currentHealth > maxHealth){
+            currentHealth=maxHealth;
+        }
+        UpdateUI();
     }
 
     private void UpdateUI(){

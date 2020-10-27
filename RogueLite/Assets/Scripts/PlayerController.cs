@@ -21,13 +21,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float dashCooldown = 1f;
     [SerializeField] public float dashInvinsible = 0.5f;
     
-    
-
+    [SerializeField] public int dashSound;
+    [SerializeField] public int shootSound;
     private float attackCounter;
     private float activeMoveSpeed;
     private Camera cam;
     private Vector2 moveInput;
-    private float dashCounter;
+    public float dashCounter {get; private set;}
     private float dashCooldownCounter;
 
     void Awake()
@@ -76,23 +76,25 @@ public class PlayerController : MonoBehaviour
         {
             GameObject.Instantiate(ammo, firePoint.position, firePoint.rotation);
             attackCounter = timeBetweenAttack;
+            AudioManager.instance.playSfx(shootSound);
         }
 
         if (Input.GetMouseButton(0))
         {
             attackCounter -= Time.deltaTime;
+            AudioManager.instance.playSfx(shootSound);
             if(attackCounter <= 0)
             {
                 GameObject.Instantiate(ammo, firePoint.position, firePoint.rotation);
                 attackCounter = timeBetweenAttack;
             }
-
         }
 
         if(Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownCounter <= 0){
             activeMoveSpeed = dashSpeed;
             dashCounter = dashLength;
             anim.SetTrigger("dash");
+            AudioManager.instance.playSfx(dashSound);
             PlayerHealthController.instance.SetInvinsible(dashInvinsible);
         }
         if(dashCounter > 0){

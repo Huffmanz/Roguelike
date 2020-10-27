@@ -8,6 +8,7 @@ public class PlayerBullet : MonoBehaviour
     [SerializeField] Rigidbody2D rb;
     [SerializeField] ParticleSystem impactEffect;
     [SerializeField] int damage = 20;
+    [SerializeField] int impactSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +27,9 @@ public class PlayerBullet : MonoBehaviour
         if(other.tag == "Enemy")
         {
             other.gameObject.GetComponent<EnemyController>().DamageEnemy(damage);
+        }
+        else{
+            AudioManager.instance.playSfx(impactSound);
         }
         Destroy(gameObject);
     }

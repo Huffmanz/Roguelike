@@ -97,9 +97,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1413714889
+  m_SortingLayer: 4
+  m_SortingOrder: 1
   m_Sprite: {fileID: -7537196482120660328, guid: 02027016afbc5d544ab92ba819bc8094,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -179,9 +179,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1800993611
-  m_SortingLayer: 1
-  m_SortingOrder: -1
+  m_SortingLayerID: -1413714889
+  m_SortingLayer: 4
+  m_SortingOrder: 1
   m_Sprite: {fileID: 3897621596536548394, guid: a47294d8f066c634d90ee371916313ff,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -286,6 +286,9 @@ MonoBehaviour:
   fireRate: 1
   theBody: {fileID: 9118561931534411365}
   shootRange: 5
+  deathSound: 1
+  hurtSound: 2
+  shootSound: 13
 --- !u!50 &9118561932748317971
 Rigidbody2D:
   serializedVersion: 4

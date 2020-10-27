@@ -16,6 +16,9 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float fireRate;
     [SerializeField] SpriteRenderer theBody;
     [SerializeField] float shootRange = 3f;
+    [SerializeField] int deathSound=1;
+    [SerializeField] int hurtSound=2;
+    [SerializeField] int shootSound;
 
     private float fireCounter;
     private Vector3 moveDirection;
@@ -42,6 +45,7 @@ public class EnemyController : MonoBehaviour
                 fireCounter-=Time.deltaTime;
                 if(fireCounter <= 0){
                     fireCounter = fireRate;
+                    AudioManager.instance.playSfx(shootSound);
                     GameObject.Instantiate(ammo, firePoint.transform.position, firePoint.transform.rotation);
                 }
             }
@@ -72,8 +76,10 @@ public class EnemyController : MonoBehaviour
 
             GameObject deathSplatter = deathSplatters[Random.Range(0, deathSplatters.Length)];
             GameObject.Instantiate(deathSplatter, transform.position, Quaternion.Euler(0,0,rotation * 90));
+            AudioManager.instance.playSfx(deathSound);
             Destroy(gameObject);
         }else{
+            AudioManager.instance.playSfx(hurtSound);
             GameObject.Instantiate(hurtEffect, transform.position, transform.rotation);
         }
     }
