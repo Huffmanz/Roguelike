@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    CameraController instance;
+    public static CameraController instance;
     [SerializeField] float moveSpeed;
     [SerializeField] Transform target;
     // Start is called before the first frame update
@@ -19,5 +19,10 @@ public class CameraController : MonoBehaviour
         if(target != null){
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(target.position.x, target.position.y, transform.position.z), moveSpeed * Time.deltaTime);
         }
+    }
+
+    public void ChangeTarget(Transform newTarget)
+    {
+        target = newTarget;
     }
 }
