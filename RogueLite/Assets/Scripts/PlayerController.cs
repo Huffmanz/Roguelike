@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField] public int dashSound;
     [SerializeField] public int shootSound;
+    [HideInInspector] public bool canMove = true;
     private float attackCounter;
     private float activeMoveSpeed;
     private Camera cam;
@@ -45,6 +46,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!canMove){
+          rigidbody.velocity = Vector2.zero;
+          anim.SetBool("isMoving",canMove);
+          return;   
+        }
         moveInput.x = Input.GetAxisRaw("Horizontal");
         moveInput.y = Input.GetAxisRaw("Vertical");
         moveInput.Normalize();

@@ -10,6 +10,7 @@ public class PlayerHealthController : MonoBehaviour
     [SerializeField] float damangeInvinsibleLength = 1f;
     [SerializeField] int playerDeathSound;
     [SerializeField] int playerHurtSound;
+
     public int currentHealth {get; private set;}
 
 

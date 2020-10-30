@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
@@ -12,6 +13,12 @@ public class UIController : MonoBehaviour
     [SerializeField] 
     public Text healthText;
     [SerializeField] public GameObject deathScreen;
+    [SerializeField] Image fadeScreen;
+    [SerializeField] float fadeSpeed=2f;
+    [SerializeField] string newGameScene;
+    [SerializeField] string mainMenuScene;
+    private bool fadeIn;
+    private bool fadeOut;
 
     
     
@@ -20,12 +27,37 @@ public class UIController : MonoBehaviour
     }
     void Start()
     {
-        
+        fadeOut = false;
+        fadeIn = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(fadeOut){
+            fadeScreen.color = new Color(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, Mathf.MoveTowards(fadeScreen.color.a, 1f, fadeSpeed * Time.deltaTime));   
+        }
+        if(fadeIn){
+            fadeScreen.color = new Color(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, Mathf.MoveTowards(fadeScreen.color.a, 0f, fadeSpeed * Time.deltaTime));   
+        }
+        if(fadeScreen.color.a == 1) fadeOut = true;
+        if(fadeScreen.color.a == 0) fadeIn = false;
+    }
+
+    public void StartFadeOut(){
+        fadeOut = true;
+        fadeIn = false;
+    }
+
+    public void StartFadeIn(){
+        fadeIn = true;
+        fadeOut = false;
+    }
+
+    public void NewGame(){
+        SceneManager.LoadScene(newGameScene);
+    }
+    public void ReturnToMainMenu(){
+        SceneManager.LoadScene(mainMenuScene);
     }
 }
