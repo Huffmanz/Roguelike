@@ -4,31 +4,15 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
-    [SerializeField] bool closeWhenEntered;
+    [SerializeField] public bool closeWhenEntered;
     [SerializeField] GameObject[] doors;
-    [SerializeField] bool openWhenEnemiesCleared;
-    [SerializeField] List<GameObject> enemiesInRoom = new List<GameObject>();
-
-    private bool roomActive=false;
+    
+    [HideInInspector]
+     public bool roomActive=false;
 
     void Update()
     {
-        if(enemiesInRoom.Count > 0 && roomActive && openWhenEnemiesCleared)
-        {
-            for(int i = 0; i < enemiesInRoom.Count; i++)
-            {
-                if(enemiesInRoom[i] == null)
-                {
-                    enemiesInRoom.RemoveAt(i);
-                    i--;
-                }
-            }
-        }
-        if (enemiesInRoom.Count == 0 && roomActive && openWhenEnemiesCleared)
-        {
-            OpenDoors();
-            closeWhenEntered = false;
-        }
+
 
     }
 
@@ -54,10 +38,11 @@ public class Room : MonoBehaviour
         }
     }
 
-    void OpenDoors()
+    public void OpenDoors()
     {
         foreach(GameObject door in doors){
             door.SetActive(false);
         }
+        closeWhenEntered = false;
     }
 }

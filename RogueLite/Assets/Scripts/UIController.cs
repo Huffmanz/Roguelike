@@ -17,6 +17,7 @@ public class UIController : MonoBehaviour
     [SerializeField] float fadeSpeed=2f;
     [SerializeField] string newGameScene;
     [SerializeField] string mainMenuScene;
+    [SerializeField] public GameObject pauseMenu;
     private bool fadeIn;
     private bool fadeOut;
 
@@ -55,9 +56,17 @@ public class UIController : MonoBehaviour
     }
 
     public void NewGame(){
+        Time.timeScale = 1;
         SceneManager.LoadScene(newGameScene);
     }
     public void ReturnToMainMenu(){
+        Time.timeScale = 1;
         SceneManager.LoadScene(mainMenuScene);
     }
+
+    public void Resume(){
+        LevelManager.instance.PauseUnpause();
+    }
+
+
 }

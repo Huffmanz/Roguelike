@@ -271,7 +271,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 9118561932748317971}
   moveSpeed: 3
+  shouldChase: 1
   chaseRange: 7
+  shouldRun: 0
+  runRange: 0
+  shouldWander: 0
+  wanderLength: 0
+  pauseLength: 0
+  wanderDirection: {x: 0, y: 0, z: 0}
   health: 150
   deathSplatters:
   - {fileID: 5010829517138215477, guid: aac62ed0dfd991814b9bb77fa420cdec, type: 3}

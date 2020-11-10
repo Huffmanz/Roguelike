@@ -46,9 +46,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!canMove){
+        if(!canMove || LevelManager.instance.isPaused){
           rigidbody.velocity = Vector2.zero;
-          anim.SetBool("isMoving",canMove);
+          anim.SetBool("isMoving",false);
           return;   
         }
         moveInput.x = Input.GetAxisRaw("Horizontal");
