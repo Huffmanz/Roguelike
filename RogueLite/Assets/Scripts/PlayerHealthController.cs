@@ -6,12 +6,12 @@ public class PlayerHealthController : MonoBehaviour
 {
     // Start is called before the first frame update
     public static PlayerHealthController instance;
-    [SerializeField] int maxHealth;
+    [SerializeField] public int maxHealth;
     [SerializeField] float damangeInvinsibleLength = 1f;
     [SerializeField] int playerDeathSound;
     [SerializeField] int playerHurtSound;
 
-    public int currentHealth {get; private set;}
+    [SerializeField] public int currentHealth;
 
 
     private float invinsibleCounter;
@@ -57,6 +57,12 @@ public class PlayerHealthController : MonoBehaviour
         if(currentHealth > maxHealth){
             currentHealth=maxHealth;
         }
+        UpdateUI();
+    }
+
+    public void IncreaseMaxHealth(int amount){
+        maxHealth+=amount;
+        currentHealth=maxHealth;
         UpdateUI();
     }
 

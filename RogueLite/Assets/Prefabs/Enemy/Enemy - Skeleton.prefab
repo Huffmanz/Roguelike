@@ -278,7 +278,8 @@ MonoBehaviour:
   shouldWander: 0
   wanderLength: 0
   pauseLength: 0
-  wanderDirection: {x: 0, y: 0, z: 0}
+  shouldPatrol: 0
+  patrolPoints: []
   health: 150
   deathSplatters:
   - {fileID: 5010829517138215477, guid: aac62ed0dfd991814b9bb77fa420cdec, type: 3}
@@ -290,12 +291,16 @@ MonoBehaviour:
   canShoot: 1
   ammo: {fileID: 2929271123715337948, guid: 27463b4493dbe4b469c8fe78df8de157, type: 3}
   firePoint: {fileID: 9118561931522377802}
+  shootRange: 5
   fireRate: 1
   theBody: {fileID: 9118561931534411365}
-  shootRange: 5
   deathSound: 1
   hurtSound: 2
   shootSound: 13
+  dropItem: 1
+  itemsToDrop:
+  - {fileID: 2094256930168387455, guid: f058bfb66625a6414bcb4836d257d550, type: 3}
+  itemDropPercent: 25
 --- !u!50 &9118561932748317971
 Rigidbody2D:
   serializedVersion: 4

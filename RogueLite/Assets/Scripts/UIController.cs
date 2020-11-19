@@ -12,6 +12,8 @@ public class UIController : MonoBehaviour
     public Slider healthBar;
     [SerializeField] 
     public Text healthText;
+
+    public Text coinText;
     [SerializeField] public GameObject deathScreen;
     [SerializeField] Image fadeScreen;
     [SerializeField] float fadeSpeed=2f;

@@ -48,6 +48,12 @@ public class EnemyController : MonoBehaviour
     [SerializeField] int hurtSound=2;
     [SerializeField] int shootSound;
 
+    [SerializeField] bool dropItem=false;
+    [SerializeField] GameObject[] itemsToDrop;
+    [Range(0,100)]
+    [SerializeField] float itemDropPercent;
+    // Start is called before the first frame update
+
     private float fireCounter;
     private Vector3 moveDirection;
     private GameObject player;
@@ -55,7 +61,8 @@ public class EnemyController : MonoBehaviour
 
     private float distanceToPlayer;
 
-    // Start is called before the first frame update
+
+    
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -154,6 +161,7 @@ public class EnemyController : MonoBehaviour
             GameObject deathSplatter = deathSplatters[Random.Range(0, deathSplatters.Length)];
             GameObject.Instantiate(deathSplatter, transform.position, Quaternion.Euler(0,0,rotation * 90));
             AudioManager.instance.playSfx(deathSound);
+            DropItem();
             Destroy(gameObject);
         }else{
             AudioManager.instance.playSfx(hurtSound);
@@ -171,6 +179,17 @@ public class EnemyController : MonoBehaviour
         {
             transform.localScale = Vector3.one;
             firePoint.transform.localScale = Vector3.one;
+        }
+    }
+
+    void DropItem(){
+        //Drop items
+        if(dropItem){
+            float dropChance = Random.Range(0f,100f);
+            if(itemDropPercent > dropChance){
+                GameObject itemToDrop = itemsToDrop[Random.Range(0,itemsToDrop.Length)];
+                Instantiate(itemToDrop, transform.position, transform.rotation);
+            }
         }
     }
 

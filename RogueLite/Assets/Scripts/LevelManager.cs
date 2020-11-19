@@ -9,12 +9,15 @@ public class LevelManager : MonoBehaviour
     [SerializeField] float waitToLoad = 4f;
     [SerializeField] string nextLevel;
 
+    public int currentCoins;
+
     public bool isPaused = false;
     private void Awake() {
         instance = this;
     } 
 
     private void Start() {
+        UpdateUI();
         Time.timeScale = 1;
     }
     private void Update() {
@@ -41,5 +44,20 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(waitToLoad);
         SceneManager.LoadScene(nextLevel);
 
+    }
+
+    public void GetCoins(int amount){
+        currentCoins+=amount;
+        UpdateUI();
+    }
+
+    public void SpendCoin(int amount){
+        currentCoins-=amount;
+        if(currentCoins < 0) currentCoins = 0;
+        UpdateUI();
+    }
+
+    private void UpdateUI(){
+        UIController.instance.coinText.text = currentCoins.ToString(); 
     }
 }
