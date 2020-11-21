@@ -6,14 +6,17 @@ public class Room : MonoBehaviour
 {
     [SerializeField] public bool closeWhenEntered;
     [SerializeField] GameObject[] doors;
+
+    [SerializeField] GameObject roomHider;
     
     [HideInInspector]
      public bool roomActive=false;
 
-    void Update()
+    void Start()
     {
-
-
+        if(gameObject.transform.position != Vector3.zero){
+            roomHider.SetActive(true);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -28,6 +31,7 @@ public class Room : MonoBehaviour
                     door.SetActive(true);
                 }
             }
+            roomHider.SetActive(false);
         }
     }
 
