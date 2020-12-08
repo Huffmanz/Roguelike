@@ -20,6 +20,12 @@ public class UIController : MonoBehaviour
     [SerializeField] string newGameScene;
     [SerializeField] string mainMenuScene;
     [SerializeField] public GameObject pauseMenu;
+    [SerializeField] public GameObject mapDisplay;
+    [SerializeField] public GameObject mapText;
+    [SerializeField] public Image currentGun;
+    [SerializeField] public Text currentGunName;
+    [SerializeField] public Slider bossSlider;
+    [SerializeField] public GameObject bossHealthDisplay;
     private bool fadeIn;
     private bool fadeOut;
 
@@ -28,10 +34,12 @@ public class UIController : MonoBehaviour
     private void Awake() {
         instance=this;
     }
-    void Start()
+    void Start() 
     {
         fadeOut = false;
         fadeIn = true;
+        currentGun.sprite = PlayerController.instance.availableGuns[PlayerController.instance.currentGun].gunUI;
+        currentGunName.text = PlayerController.instance.availableGuns[PlayerController.instance.currentGun].weaponName;
     }
 
     // Update is called once per frame
@@ -57,18 +65,22 @@ public class UIController : MonoBehaviour
         fadeOut = false;
     }
 
+
     public void NewGame(){
+        Destroy(PlayerController.instance.gameObject);
         Time.timeScale = 1;
         SceneManager.LoadScene(newGameScene);
     }
     public void ReturnToMainMenu(){
         Time.timeScale = 1;
         SceneManager.LoadScene(mainMenuScene);
+        Destroy(PlayerController.instance.gameObject);
     }
 
     public void Resume(){
         LevelManager.instance.PauseUnpause();
     }
+
 
 
 }

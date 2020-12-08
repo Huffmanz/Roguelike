@@ -191,7 +191,7 @@ MonoBehaviour:
   rb: {fileID: 7916330489609477553}
   moveSpeed: 8
   shouldChase: 1
-  chaseRange: 5
+  chaseRange: 2
   shouldRun: 0
   runRange: 0
   shouldWander: 1
@@ -199,7 +199,7 @@ MonoBehaviour:
   pauseLength: 0
   shouldPatrol: 0
   patrolPoints: []
-  health: 40
+  health: 30
   deathSplatters:
   - {fileID: 5010829517138215477, guid: aac62ed0dfd991814b9bb77fa420cdec, type: 3}
   - {fileID: 1284104569965093885, guid: 4652e98b2e41a18fb8e0d48a74e6b809, type: 3}

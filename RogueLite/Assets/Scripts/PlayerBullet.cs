@@ -28,6 +28,11 @@ public class PlayerBullet : MonoBehaviour
         {
             other.gameObject.GetComponent<EnemyController>().DamageEnemy(damage);
         }
+        if(other.tag == "Boss")
+        {
+            BossController.instance.TakeDamage(damage);
+            Instantiate(BossController.instance.hitEffect, transform.position, transform.rotation);
+        }
         else{
             AudioManager.instance.playSfx(impactSound);
         }

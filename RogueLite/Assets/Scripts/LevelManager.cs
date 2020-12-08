@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance;
     [SerializeField] float waitToLoad = 4f;
     [SerializeField] string nextLevel;
+    [SerializeField] public Transform startPoint;
 
     public int currentCoins;
 
@@ -17,6 +18,9 @@ public class LevelManager : MonoBehaviour
     } 
 
     private void Start() {
+        PlayerController.instance.gameObject.transform.position = startPoint.position;
+        PlayerController.instance.canMove = true;
+        currentCoins = CharacterTracker.instance.currentCoins;
         UpdateUI();
         Time.timeScale = 1;
     }
@@ -42,6 +46,9 @@ public class LevelManager : MonoBehaviour
         UIController.instance.StartFadeOut();
         AudioManager.instance.playLevelWin();
         yield return new WaitForSeconds(waitToLoad);
+        CharacterTracker.instance.currentCoins = currentCoins;
+        CharacterTracker.instance.currentHealth = PlayerHealthController.instance.currentHealth;
+        CharacterTracker.instance.maxHealth = PlayerHealthController.instance.maxHealth;
         SceneManager.LoadScene(nextLevel);
 
     }

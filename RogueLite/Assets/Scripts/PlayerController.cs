@@ -10,11 +10,9 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] float moveSpeed = 5;
     [SerializeField] Rigidbody2D rigidbody;
-    [SerializeField] Transform gunArm;
+    [SerializeField] public Transform gunArm;
     [SerializeField] Animator anim;
-    [SerializeField] GameObject ammo;
-    [SerializeField] Transform firePoint;
-    [SerializeField] float timeBetweenAttack = 1f;
+   
     [SerializeField] public SpriteRenderer bodysr;
     [SerializeField] public float dashSpeed = 8f;
     [SerializeField] public float dashLength = 0.5f;
@@ -22,25 +20,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float dashInvinsible = 0.5f;
     
     [SerializeField] public int dashSound;
-    [SerializeField] public int shootSound;
+    //[SerializeField] public int shootSound;
     [HideInInspector] public bool canMove = true;
-    private float attackCounter;
+    public List<Gun> availableGuns = new List<Gun>();
     private float activeMoveSpeed;
-    private Camera cam;
     private Vector2 moveInput;
     public float dashCounter {get; private set;}
     private float dashCooldownCounter;
-
+    [HideInInspector] public int currentGun = 0;
     void Awake()
     {
         instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
     {
-        cam = Camera.main;
-        attackCounter = timeBetweenAttack;
+        //cam = Camera.main;
+        //attackCounter = timeBetweenAttack;
         activeMoveSpeed = moveSpeed;
+        //UpdateGunUI();
     }
 
     // Update is called once per frame
@@ -60,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 mousePosition = Input.mousePosition;
         //Position of camera in screen space
-        Vector3 screenPoint = cam.WorldToScreenPoint(transform.localPosition);
+        Vector3 screenPoint = CameraController.instance.mainCamera.WorldToScreenPoint(transform.localPosition);
 
         if(mousePosition.x < screenPoint.x)
         {
@@ -78,21 +77,17 @@ public class PlayerController : MonoBehaviour
         float angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
         gunArm.rotation = Quaternion.Euler(0f, 0f, angle);
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            GameObject.Instantiate(ammo, firePoint.position, firePoint.rotation);
-            attackCounter = timeBetweenAttack;
-            AudioManager.instance.playSfx(shootSound);
-        }
-
-        if (Input.GetMouseButton(0))
-        {
-            attackCounter -= Time.deltaTime;
-            AudioManager.instance.playSfx(shootSound);
-            if(attackCounter <= 0)
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {           
+            if (availableGuns.Count > 0)
             {
-                GameObject.Instantiate(ammo, firePoint.position, firePoint.rotation);
-                attackCounter = timeBetweenAttack;
+                currentGun++;
+                if (currentGun >= availableGuns.Count) currentGun = 0;
+                SwitchGun();
+            }
+            else
+            {
+                Debug.LogError("Player has no guns");
             }
         }
 
@@ -116,5 +111,20 @@ public class PlayerController : MonoBehaviour
 
         anim.SetBool("isMoving", moveInput != Vector2.zero); 
         
+    }
+    public void SwitchGun()
+    {
+        foreach(Gun gun in availableGuns)
+        {
+            gun.gameObject.SetActive(false);
+        }
+        availableGuns[currentGun].gameObject.SetActive(true);
+        UpdateGunUI();
+    }
+
+    private void UpdateGunUI()
+    {
+        UIController.instance.currentGun.sprite = availableGuns[currentGun].gunUI;
+        UIController.instance.currentGunName.text = availableGuns[currentGun].weaponName;
     }
 }

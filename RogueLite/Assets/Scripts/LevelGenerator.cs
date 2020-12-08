@@ -10,10 +10,14 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] Color startColor;
     [SerializeField] Color endColor;
     [SerializeField] Color shopColor;
+    [SerializeField] Color chestColor;
     [SerializeField] Transform generatorPoint;
     [SerializeField] bool includeShop;
     [SerializeField] int minDistanceToShop;
     [SerializeField] int maxDistanceToShop;
+    [SerializeField] bool includeChest;
+    [SerializeField] int minDistanceToChest;
+    [SerializeField] int maxDistinceToChest;
     [SerializeField] float xOffset = 18f;
     [SerializeField] float yOffset = 10f;
     [SerializeField] LayerMask roomLayer;
@@ -21,9 +25,11 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] RoomCenter centerStart;
     [SerializeField] RoomCenter centerEnd;
     [SerializeField] RoomCenter centerShop;
+    [SerializeField] RoomCenter centerChest;
     [SerializeField] RoomCenter[] centers;
     private GameObject endRoom;
     private GameObject shopRoom;
+    private GameObject chestRoom;
     private List<GameObject> layoutRoomObjects = new List<GameObject>();
 
     private List<GameObject> generatedOutlines = new List<GameObject>();
@@ -67,6 +73,14 @@ public class LevelGenerator : MonoBehaviour
         if(includeShop){
             CreateRoomOutline(shopRoom.transform.position);
         }
+        if (includeChest)
+        {
+            int chestSelector = Random.Range(minDistanceToChest, maxDistinceToChest + 1);
+            chestRoom = layoutRoomObjects[chestSelector];
+            layoutRoomObjects.RemoveAt(chestSelector);
+            chestRoom.GetComponent<SpriteRenderer>().color = chestColor;
+            CreateRoomOutline(chestRoom.transform.position);
+        }
         CreateRoomOutline(endRoom.transform.position);
         foreach(GameObject room in layoutRoomObjects){
             CreateRoomOutline(room.transform.position);
@@ -81,6 +95,10 @@ public class LevelGenerator : MonoBehaviour
             }
             else if(includeShop && outline.transform.position == shopRoom.transform.position){
                 Instantiate(centerShop, outline.transform.position, transform.rotation).theRoom = outline.GetComponent<Room>();    
+            }
+            else if(includeChest && outline.transform.position == chestRoom.transform.position)
+            {
+                Instantiate(centerChest, outline.transform.position, transform.rotation).theRoom = outline.GetComponent<Room>();
             }
             else{
                 int centerSelected = Random.Range(0, centers.Length);

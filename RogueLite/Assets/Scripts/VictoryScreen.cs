@@ -13,6 +13,7 @@ public class VictoryScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Destroy(PlayerController.instance.gameObject);
         Time.timeScale = 1;
         anyText.SetActive(false);
     }

@@ -20,7 +20,8 @@ public class PlayerHealthController : MonoBehaviour
     }
     void Start()
     {
-        currentHealth = maxHealth;
+        maxHealth = CharacterTracker.instance.maxHealth;
+        currentHealth = CharacterTracker.instance.currentHealth; ;
         
         
         UpdateUI();
